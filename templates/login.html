@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Iniciar sesión{% endblock %}
+{% block content %}
+<section class="card card-centered">
+  <h2>Iniciar sesión</h2>
+  <form method="post" class="form">
+    <label>
+      Usuario
+      <input name="username" type="text" autocomplete="username" required>
+    </label>
+    <label>
+      Contraseña
+      <input name="password" type="password" autocomplete="current-password" required>
+    </label>
+    <button class="btn btn-primary" type="submit">Entrar</button>
+  </form>
+  <p class="hint">Ingresa tu usuario y contraseña.</p>
+</section>
+{% endblock %}
