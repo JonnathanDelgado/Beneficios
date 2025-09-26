@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from functools import wraps
 import Verificacion as verif
 from db_auth import verify_login
-
+# db_gpon
 app = Flask(__name__)
 app.secret_key = "dev"  # Cambia esto en producción
 
