@@ -1,5 +1,6 @@
 import MySQLdb
 import sshtunnel
+# logueos de sshtunnel a /dev/null
 
 # timeouts recomendados por la guía
 sshtunnel.SSH_TIMEOUT = 10.0
@@ -48,3 +49,5 @@ def verify_login(usuario: str, password: str) -> bool:
             return ok
         finally:
             conn.close()
+            
+            
