@@ -1,7 +1,8 @@
 import MySQLdb
 import sshtunnel
 # logueos de sshtunnel a /dev/null
-
+# Bug de Logeo se arregl desintalando la versión 4.0 de paramiko e instalando pip uninstall -y paramiko
+# pip install "paramiko<3" sshtunnel mysql-connector-python   (Solución al Bug de error de logeo a pesar que esten bien las credenciales)
 # timeouts recomendados por la guía
 sshtunnel.SSH_TIMEOUT = 10.0
 sshtunnel.TUNNEL_TIMEOUT = 10.0
