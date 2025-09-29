@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Resultado{% endblock %}
+{% block content %}
+<section class="card">
+  <h2>Resultado</h2>
+  <div class="result">
+    <p><strong>Nombre:</strong> {{ data.nombre_cliente }}</p>
+    <p><strong>Documento:</strong> {{ data.documento }}</p>
+    <p><strong>Estado:</strong> <span class="badge {{ 'ok' if data.estado == 'APROBADO' else 'bad' if data.estado == 'DENEGADO' else 'warn' }}">{{ data.estado }}</span></p>
+    {% if data.mensaje %}
+      <p class="muted">{{ data.mensaje }}</p>
+    {% endif %}
+  </div>
+  <a class="btn" href="{{ url_for('index') }}">Nueva consulta</a>
+</section>
+{% endblock %}
