@@ -1,63 +1,81 @@
-{% extends "base.html" %}
-{% block title %}Consulta{% endblock %}
-{% block body_class %}consulta-page{% endblock %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inicio · Gpon</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
 
-{% block extra_css %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/consulta.css') }}">
-{% endblock %}
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">Gpon</div>
+    <div class="sub">for Partners</div>
+  </div>
+  <nav class="top-actions">
+    <a class="btn btn-outline" href="{{ url_for('logout') }}">
+      Cerrar sesión
+    </a>
+  </nav>
+</header>
 
-<div class="containerpadre">
-  <header class="header">
-    <div class="header-content">  <!-- Quité "container" aquí -->
-      <div class="containerlogo">
-        <img src="{{ url_for('static', filename='conten/Gponblack.svg') }}" alt="Logo 1">
-        <img class="forpartner" src="{{ url_for('static', filename='conten/forpartnersblack.svg') }}" alt="Logo 2">
+<main class="container">
+  <section class="hero">
+    <h1>Bienvenido, <span class="username">@{{ session.get('user', 'name') }}</span>!</h1>
+    <p class="lead">
+      En nuestro portal puedes validar tanto a los clientes y trabajadoras/es que
+      gozan del beneficio de nuestras alianzas. Es de suma importancia recordar la relevancia del
+      cuidado de esta información, quedando como responsabilidad legal de nuestro partner el uso
+      y tratamiento.
+    </p>
+
+    <div class="grid">
+      <!-- Verificador de usuarios -->
+      <div class="card">
+        <h3>Verificador de usuarios</h3>
+        <form method="post" action="{{ url_for('consultar') }}" class="verify-form">
+          <label>
+            Tipo de documento
+            <select name="select_documento" required>
+              <option value="DNI">DNI</option>
+              <option value="Carnet de Extranjeria">Carnet de Extranjería</option>
+            </select>
+          </label>
+
+          <label>
+            Número
+            <input name="documento" type="text" placeholder="Ej. 12345678" required>
+          </label>
+
+          <label>
+            Tipo
+            <select name="tipo">
+              <option value="cliente">Cliente</option>
+              <option value="trabajador">Trabajador</option>
+            </select>
+          </label>
+
+          <button type="submit" class="btn btn-primary">Validar ahora</button>
+        </form>
       </div>
-      <nav>
-        {% if session.get('user') %}
-          <span class="user">👤 {{ session['user'] }}</span>
-          <a class="btn" href="{{ url_for('logout') }}">Cerrar sesión</a>
-        {% endif %}
-      </nav>
+
+      <!-- Lado derecho con imagen -->
+      <div class="preview">
+        <img src="{{ url_for('static', filename='img/hoja.png') }}"
+             alt="Vista de Excel de ejemplo">
+      </div>
     </div>
-  </header>
 
-  <section class="card">
-    <h2>Consulta de Cliente/Trabajador</h2>
-    <form method="post" action="{{ url_for('consultar') }}" class="form grid-2">
-      <label class="span-2">
-        DNI o Carnet de Extranjería
-        <select name="select_documento">
-          <option value="DNI" id="1">DNI/RUC</option>
-          <option value="Carnet de Extranjeria" id="2">Carnet de Extranjeria</option>
-        </select>
-        <input name="documento" type="text" placeholder="Ej. 12345678" required>
-      </label>
-      <label>
-        Tipo
-        <select name="tipo">
-          <option value="cliente">Cliente</option>
-          <option value="trabajador">Trabajador</option>
-        </select>
-      </label>
-      <div class="actions right">
-        <button class="btn btn-primary" type="submit">Consultar</button>
-      </div>
-    </form>
-
-    <div class="subirbtn">
-        <button class="btnsubir">
-          <img src="/static/conten/sobresalir.png" alt="Logo Gonzales">Subir beneficiarios
-        </button>
+    <div class="actions">
+      <a class="btn btn-excel" href="#">
+        Subir beneficiarios
+      </a>
     </div>
   </section>
+</main>
 
-  <footer class="footer">
-    <div class="footer-container">  <!-- Cambié a footer-container -->
-      © {{ 2025 }} — Demo
-    </div>
-  </footer>
-</div>
+<footer class="footer">Gpon</footer>
 
-{% endblock %}
+</body>
+</html>

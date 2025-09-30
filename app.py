@@ -41,7 +41,7 @@ def login():
     if request.method == "POST":
         username = (request.form.get("username") or "").strip()
         password = request.form.get("password") or ""
-        nxt = request.args.get("next") or url_for("index")
+        nxt = request.form.get("next") or request.args.get("next") or url_for("index")
         try:
             ok, name = verify_login(username, password)
             if ok:
