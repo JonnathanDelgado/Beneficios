@@ -7,14 +7,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-HXr7+Xw5l4kz0Uht5Ec3hFW+e5kZ3Q52TnPGyY2IpbXfS5mDmyZgZ2h8u9JjHnTtL7VYoY3Su+FjAqgX3vsUqw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 
   <!-- CSS extra por página -->
   {% block extra_css %}{% endblock %}
 </head>
-<body class="{% block body_class %}{% endblock %}">
+<body class="{% block body_class %}base-page{% endblock %}">
   <header class="header">
     <div class="container header-content">
-      <h1 class="logo">Mi App</h1>
+      <div class="containerlogo">
+        <!--div class="logo"-->
+        <img src="{{ url_for('static', filename='conten/logo1partners.svg') }}" alt="Logo 1">
+        <img class="forpartner" src="{{ url_for('static', filename='conten/logo2.svg') }}" alt="Logo 2">
+        <!--/div-->  
+      </div>
       <nav>
         {% if session.get('user') %}
           <span class="user">👤 {{ session['user'] }}</span>

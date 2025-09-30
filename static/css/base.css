@@ -1,0 +1,112 @@
+/* ===== ESTILOS ESPECÍFICOS PARA BASE.HTML ===== */
+
+body.base-page {
+  background: #f4f4f4;
+  font-family: 'Readex Pro', sans-serif;
+  color: #333;
+}
+
+/* Header */
+body.base-page .header {
+    background-color: #00476D;
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.base-page .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+body.base-page .logo {
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+body.base-page .user {
+    color: #FFFFFF;
+    margin-right: 1rem;
+    font-weight: 500;
+}
+
+body.base-page nav .btn {
+    background-color: #FF7620;
+    color: #FFFFFF;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    margin-left: 1rem;
+}
+
+body.base-page nav .btn:hover {
+    background-color: #e65d0e;
+    text-decoration: none;
+}
+
+/* Estilos para el contenido principal */
+body.base-page main.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+/* Estilos para mensajes flash */
+body.base-page .flash {
+    list-style: none;
+    margin-bottom: 1.5rem;
+    padding: 0;
+}
+
+body.base-page .flash li {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+}
+
+body.base-page .flash-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+body.base-page .flash-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+body.base-page .flash-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+body.base-page .flash-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* Footer */
+body.base-page .footer {
+    background-color: #00476D;
+    color: #FFFFFF;
+    padding: 1rem 0;
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 14px;
+}
+
+body.base-page .footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
