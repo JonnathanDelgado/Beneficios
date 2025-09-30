@@ -187,7 +187,7 @@
         left: 0;
         right: 0;
         background: #FFFFFF;
-        border-radius: 0px 0px 10px 10px; 
+        border-radius: 10px 10px 10px 10px; 
         display: none;
         flex-direction: column;
         padding: 10px 0;
