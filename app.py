@@ -40,9 +40,10 @@ def login():
         password = request.form.get("password") or ""
         nxt = request.args.get("next") or url_for("index")
         try:
-            if verify_login(username, password):
-                session["user"] = username
-                flash(f"Bienvenido, {username}.", "success")
+            ok, name = verify_login(username, password)
+            if ok:
+                session["user"] = name  # Guardamos el `name` en la sesión
+                flash(f"Bienvenido, {name}.", "success")
                 return redirect(nxt)
             else:
                 flash("Usuario o contraseña incorrectos.", "error")
@@ -51,6 +52,7 @@ def login():
             print("[login] Error de verificación:", e)
             flash("No se pudo verificar las credenciales. Intenta de nuevo más tarde.", "error")
     return render_template("login.html")
+
 
 @app.route("/logout")
 @login_required

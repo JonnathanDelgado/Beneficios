@@ -1,27 +1,31 @@
-import MySQLdb
-import sshtunnel
 # logueos de sshtunnel a /dev/null
 # Bug de Logeo se arregl desintalando la versión 4.0 de paramiko e instalando pip uninstall -y paramiko
 # pip install "paramiko<3" sshtunnel mysql-connector-python   (Solución al Bug de error de logeo a pesar que esten bien las credenciales)
+# timeouts recomendados por la guía
+import MySQLdb
+import sshtunnel
+from typing import Tuple, Optional
+
 # timeouts recomendados por la guía
 sshtunnel.SSH_TIMEOUT = 10.0
 sshtunnel.TUNNEL_TIMEOUT = 10.0
 
 SSH_HOST = ('ssh.pythonanywhere.com', 22)
-SSH_USER = 'GPON2'                 # tu usuario de PythonAnywhere
-SSH_PASS = 'z1x2c345'       # tu contraseña de login web en PythonAnywhere
+SSH_USER = 'GPON2'
+SSH_PASS = 'z1x2c345'
 
 REMOTE_DB_HOST = 'gpon2.mysql.pythonanywhere-services.com'
 REMOTE_DB_PORT = 3306
 
-DB_USER = 'GPON2'                  # usuario MySQL (normalmente el mismo alias)
-DB_PASS = 'Mug1w@r@noluffy'         # contraseña configurada en pestaña Databases
-DB_NAME = 'GPON2$Usuarios'         # con el prefijo usuario$
+DB_USER = 'GPON2'
+DB_PASS = 'Mug1w@r@noluffy'
+DB_NAME = 'GPON2$Usuarios'
 
-def verify_login(usuario: str, password: str) -> bool:
+def verify_login(usuario: str, password: str) -> Tuple[bool, Optional[str]]:
     """
     Verifica credenciales contra la tabla `users` en MySQL usando SHA2-256.
-    Retorna True si coincide usuario + hash, en caso contrario False.
+    Retorna (ok, name): ok=True si coincide usuario+hash y name es el nombre del usuario.
+    Si no coincide, retorna (False, None).
     """
     with sshtunnel.SSHTunnelForwarder(
         SSH_HOST,
@@ -41,14 +45,18 @@ def verify_login(usuario: str, password: str) -> bool:
         )
         try:
             cur = conn.cursor()
+            # Seleccionamos el campo `name` si hay coincidencia
             cur.execute(
-                "SELECT 1 FROM users WHERE usuario=%s AND password_hash = SHA2(%s, 256) LIMIT 1",
+                "SELECT name FROM users WHERE usuario=%s AND password_hash = SHA2(%s, 256) LIMIT 1",
                 (usuario, password)
             )
-            ok = cur.fetchone() is not None
+            row = cur.fetchone()
             cur.close()
-            return ok
+
+            if row is not None:
+                # row será una tupla, por ejemplo ('Juan Pérez',)
+                return True, row[0]
+            else:
+                return False, None
         finally:
             conn.close()
-            
-            
