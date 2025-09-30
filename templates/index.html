@@ -6,6 +6,10 @@
   <form method="post" action="{{ url_for('consultar') }}" class="form grid-2">
     <label class="span-2">
       DNI o Carnet de Extranjería
+      <select name="select_documento">
+        <option value="DNI" id="1">DNI/RUC</option>
+        <option value="Carnet de Extranjeria" id="2">Carnet de Extranjeria</option>
+      </select>
       <input name="documento" type="text" placeholder="Ej. 12345678" required>
     </label>
     <label>

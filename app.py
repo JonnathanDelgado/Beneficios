@@ -16,9 +16,12 @@ def login_required(view_func):
         return view_func(*args, **kwargs)
     return wrapper
 
-def consulta_principal(documento: str, tipo: str):
+def consulta_principal(documento: str, tipo: str, select_documento: str):
     if tipo == "cliente":
-        idcliente = documento
+        if select_documento == "DNI":
+            idcliente = documento
+        else:
+            idcliente = documento.zfill(12)  # Rellenar con ceros a la izquierda para Carnet de Extranjería
         Dpto = "Lima"
         data = verif.consumir_api_plataformaweb(idcliente, Dpto)
         if not data:
@@ -71,10 +74,11 @@ def index():
 def consultar():
     documento = (request.form.get("documento") or "").strip()
     tipo = request.form.get("tipo") or "cliente"
+    select_documento = request.form.get("select_documento")
     if not documento:
         flash("Ingresa un DNI o Carnet de Extranjería.", "error")
         return redirect(url_for("index"))
-    resultado = consulta_principal(documento, tipo)
+    resultado = consulta_principal(documento, tipo, select_documento)
     return render_template("resultado.html", data=resultado)
 
 if __name__ == "__main__":
