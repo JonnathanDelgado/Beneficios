@@ -1,5 +1,7 @@
 /**/
-
+/* Para wl ojito abierto del icono de 
+<i class="fa-thin fa-eye"></i>
+*/
 /*-------INICIO DE ESTILOS--------*/
 
     *{
@@ -29,7 +31,8 @@
         width: 100%;
         min-height: 100%;
         display: grid;
-        grid-template-columns: 45% 55%;
+        grid-template-columns: 40% 60%;
+        grid-template-rows: 100%;
         /*gap: 10px;*/
     }
 
@@ -60,8 +63,10 @@
     }
     
     .containerform{
+        /*text-align: center;*/
         padding: 4em;
         padding-top: 2rem;
+        box-sizing: border-box;
     }
 
     .forpartner{
@@ -71,10 +76,11 @@
     form{
         display: grid;
         grid-template-rows: 6em 6em 6em 6em;
+        justify-content: left;
     }
 
     /* Select personalizado */
-    .selectbox {
+    /*.selectbox {
         background-color: #fff;
         border-radius: 10px;
         padding: 15px;
@@ -86,24 +92,28 @@
     .selectbox p {
         margin: 0;
         color: #333;
-    }
+    }*/
 
     /* Inputs */
     label {
         display: block;
         font-size: 14px;
         font-weight: 500;
-        color: #fff;
+        color: #FFFFFF;
     }
 
     input {
-        width: 35em;
+        width: 530px;
+        max-width: 100%;
+        background-color: #FFFFFF;
+        height: 64px;
         padding: 14px;
         border: none;
         border-radius: 10px;
         font-size: 14px;
         margin-top: 5px;
         outline: none;
+        box-sizing: border-box;
     }
 
     /* Botón */
@@ -111,7 +121,7 @@
         width: 21em;
         padding: 15px;
         background-color: #FF7620; /* naranja */
-        color: #fff;
+        color: #FFFFFF;
         font-size: 16px;
         /*font-weight: bold;*/
         border: none;
@@ -133,23 +143,26 @@
     /*--------------------------------------------------------------*/
 
     /* Contenedor principal */
-    .custom-select {
-        width: 100%;
-        max-width: 380px;
-        position: relative;
-        font-family: Arial, sans-serif;
+
+    .GR1{
+        text-align: start;
+
     }
 
     /* Trigger (lo que se ve cerrado) */
     .select-trigger {
-        background: #fff;
+        width: 530px;
+        height: 64px;
+        background: #FFFFFF;
         padding: 15px;
         border-radius: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         cursor: pointer;
+        text-align: center;
         font-size: 15px;
+        box-sizing: border-box;
     }
 
     .select-trigger .arrow {
@@ -160,15 +173,27 @@
         transition: 0.3s;
     }
 
-    /* Opciones */
+    .custom-select {
+        position: relative; /* referencia */
+        width: 100%;
+        max-width: 530px;
+        font-family: 'Readex Pro', sans-serif;
+        z-index: 100; /* aseguramos que tenga prioridad */
+    }
+
     .options {
-        background: #fff;
-        border-radius: 10px;
-        margin-top: 5px;
-        display: none; /* oculto por defecto */
+        position: absolute; /* se desprende debajo del trigger */
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #FFFFFF;
+        border-radius: 0px 0px 10px 10px; 
+        display: none;
         flex-direction: column;
         padding: 10px 0;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        z-index: 200; /* sobre todo */
+        box-sizing: border-box;
     }
 
     /* Mostrar cuando está activo */
@@ -178,12 +203,15 @@
 
     /* Cada opción */
     .option {
+        max-width: 530px;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between; /* radio+texto a la izquierda, imagen a la derecha */
         padding: 10px 15px;
         cursor: pointer;
         transition: background 0.3s;
+        box-sizing: border-box;
     }
 
     .option:hover {
@@ -235,6 +263,59 @@
         border-radius: 6px;
         margin-left: 15px;
         object-fit: contain;
+    }
+
+    /*--------------------------------------------------------------*/
+
+    /* General para inputs */
+    .GR2 label, .GR3 label {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: #FFFFFF;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 530px;
+        padding: 0; /* deja espacio para los íconos */
+        height: 64px;
+        padding-left: 2.5rem;
+        box-sizing: border-box;
+    }
+
+    .GR2 input, .GR3 input {
+        border: none;
+        outline: none;
+        flex: 1;
+        font-size: 15px;
+        margin: 0;
+        background: #FFFFFF;
+    }
+
+    /* Íconos de los inputs */
+    .iconoinput {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 24px;
+    }
+
+    .GR2 .iconoinput img,
+    .GR3 .iconoinput img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Ícono a la izquierda */
+    .GR2 .iconoinput:first-child,
+    .GR3 .iconoinput:first-child {
+        left: 15px;
+    }
+
+    /* Ícono del ojo a la derecha */
+    .GR3 .iconoinput:last-child {
+        right: 15px;
+        cursor: pointer;
     }
 
     /*--------------------------------------------------------------*/
