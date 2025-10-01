@@ -2,9 +2,30 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from functools import wraps
 import Verificacion as verif
 from db_auth import verify_login
+import os
+from datetime import datetime
+from werkzeug.utils import secure_filename
+
 # db_gpon
 app = Flask(__name__)
 app.secret_key = "dev"  # Cambia esto en producción
+# Carpeta destino en PythonAnywhere (se expande a /home/GPON2/Beneficiarios)
+app.config["BENEFICIARIOS_DIR"] = os.path.expanduser("~/Beneficiarios")
+os.makedirs(app.config["BENEFICIARIOS_DIR"], exist_ok=True)
+
+# Tamaño máximo del archivo: 20 MB
+app.config["MAX_CONTENT_LENGTH"] = 20 * 1024 * 1024
+
+# Extensiones permitidas
+EXCEL_EXTS = {"xlsx", "xls", "csv"}
+
+def _allowed_excel(filename: str) -> bool:
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in EXCEL_EXTS
+
+def _slugify_user(u: str) -> str:
+    # convierte a nombre seguro de archivo
+    base = "".join(ch if ch.isalnum() or ch in ("-", "_") else "_" for ch in (u or "user"))
+    return base.strip("_") or "user"
 
 USERS = None  # autenticación delegada a verify_login (MySQL + SSH)
 
@@ -80,6 +101,34 @@ def consultar():
         return redirect(url_for("index"))
     resultado = consulta_principal(documento, tipo, select_documento)
     return render_template("resultado.html", data=resultado)
+
+@app.route("/upload_beneficiarios", methods=["POST"])
+@login_required
+def upload_beneficiarios():
+    f = request.files.get("file")
+    if not f or f.filename == "":
+        flash("No se seleccionó archivo.", "error")
+        return redirect(url_for("index"))
+
+    if not _allowed_excel(f.filename):
+        flash("Extensión no permitida. Usa .xlsx, .xls o .csv.", "error")
+        return redirect(url_for("index"))
+
+    # nombre seguro + extensión
+    safe_original = secure_filename(f.filename)
+    ext = "." + safe_original.rsplit(".", 1)[1].lower()
+
+    # YYYYMMDD_HHMMSS_usuario.ext
+    now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+    user_slug = _slugify_user(session.get("user"))
+    new_name = f"{now_str}_{user_slug}{ext}"
+
+    dest = os.path.join(app.config["BENEFICIARIOS_DIR"], new_name)
+    f.save(dest)
+
+    flash(f"Archivo subido como {new_name}.", "success")
+    return redirect(url_for("index"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,21 +1,150 @@
-{% extends "base.html" %}
-{% block title %}Resultado{% endblock %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resultado</title>
 
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/resultado.css') }}">
-{% endblock %}
+  <style>
+    :root{
+      --bg: #0b1220;
+      --card: #111827;
+      --text: #e5e7eb;
+      --muted:#9ca3af;
+      --line:#30343b;
+      --ok:#16a34a;  /* verde */
+      --bad:#dc2626; /* rojo  */
+      --warn:#d97706;/* ámbar */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 10% -10%, rgba(37,99,235,.18), transparent),
+        radial-gradient(900px 600px at 110% 10%, rgba(16,185,129,.14), transparent),
+        var(--bg);
+    }
 
-{% block content %}
-<section class="card">
-  <h2>Resultado</h2>
-  <div class="result">
-    <p><strong>Nombre:</strong> {{ data.nombre_cliente }}</p>
-    <p><strong>Documento:</strong> {{ data.documento }}</p>
-    <p><strong>Estado:</strong> <span class="badge {{ 'ok' if data.estado == 'APROBADO' else 'bad' if data.estado == 'DENEGADO' else 'warn' }}">{{ data.estado }}</span></p>
-    {% if data.mensaje %}
+    /* Capa difusa + oscurecida, como la captura */
+    .backdrop{
+      position:fixed; inset:0;
+      background: rgba(2,6,23,.35);      /* oscurece */
+      backdrop-filter: blur(10px);        /* difumina */
+      -webkit-backdrop-filter: blur(10px);
+      display:grid; place-items:center;
+      padding: 24px;
+    }
+
+    /* “Modal” */
+    .card{
+      position:relative;
+      width:min(680px, 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,.045), transparent 30%), var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:
+        0 12px 40px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.03);
+      padding:18px;
+      animation: pop .18s ease-out;
+    }
+    @keyframes pop{from{opacity:.6; transform: translateY(8px) scale(.98)}}
+
+    .title-row{display:flex; gap:14px; align-items:center; margin-bottom:12px}
+    .title-row .label{font-weight:600; color:#e2e8f0}
+    .pill{
+      display:inline-block; padding:6px 12px; border-radius:999px; font-weight:700; font-size:.9rem;
+      background:#0b1b12; border:1px solid rgba(22,163,74,.55); color:#dcfce7;
+    }
+    .pill.bad   { background:#1b0f11; border-color: rgba(220,38,38,.55); color:#fee2e2;}
+    .pill.warn  { background:#1b160b; border-color: rgba(217,119,6,.55);  color:#fffbeb;}
+
+    .row{
+      margin-top:10px; background:#0f1524; border:1px solid var(--line); border-radius:12px;
+      display:flex; align-items:center; padding:10px 12px; gap:12px;
+    }
+    .avatar{
+      width:28px; height:28px; border-radius:999px; display:grid; place-items:center;
+      background:#0b1220; border:1px solid #2a3140; font-size:14px;
+    }
+    .name{flex:1; letter-spacing:.3px}
+    .okmark{
+      width:22px; height:22px; border-radius:999px; border:1px solid rgba(255,255,255,.1);
+      display:grid; place-items:center; background:#0b1220;
+    }
+
+    /* Botón X flotante */
+    .close{
+      position: absolute; right:-16px; top:-16px;
+      width:42px; height:42px; border-radius:999px; border:2px solid #1f2937;
+      background:#0b1220; color:#fff; font-weight:900; font-size:20px; line-height:38px; text-align:center;
+      cursor:pointer; transition:.15s;
+      box-shadow: 0 8px 24px rgba(0,0,0,.55);
+    }
+    .close:hover{ transform: translateY(-1px); background:#121a2a }
+
+    .muted{color:var(--muted); margin:10px 2px 0}
+    .footer-bar{
+      position:fixed; left:0; right:0; bottom:0; height:56px;
+      display:grid; place-items:center;
+      color:#e5e7eb; letter-spacing:.4px; background:#0b1220; border-top:1px solid #1f2937;
+    }
+
+    /* Accesibilidad para usuarios que prefieren menos animación */
+    @media (prefers-reduced-motion: reduce){
+      .card{animation:none}
+      .close:hover{transform:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="backdrop" id="backdrop" aria-modal="true" role="dialog">
+    <div class="card" role="document" aria-labelledby="titulo">
+      <button class="close" id="btnClose" aria-label="Cerrar">×</button>
+
+      <div class="title-row">
+        <div class="label">Estado:</div>
+        <div class="pill
+          {{ 'bad'  if data.estado|upper in ['NO ES BENEFICIARIO','DENEGADO'] else
+             'warn' if data.estado|upper in ['OBSERVADO','PENDIENTE'] else '' }}">
+          {{ data.estado or '—' }}
+        </div>
+      </div>
+
+      <div class="row" aria-live="polite">
+        <div class="avatar" aria-hidden="true">👤</div>
+        <div class="name">
+          {{ (data.nombre_cliente or '—') | upper }}
+        </div>
+        <div class="okmark" aria-hidden="true">✓</div>
+      </div>
+
+      {% if data.mensaje %}
       <p class="muted">{{ data.mensaje }}</p>
-    {% endif %}
+      {% endif %}
+    </div>
   </div>
-  <a class="btn" href="{{ url_for('index') }}">Nueva consulta</a>
-</section>
-{% endblock %}
+
+  <!-- Barra inferior tipo “marca” (como en la imagen) -->
+  <div class="footer-bar">Gpon</div>
+
+  <script>
+    // Redirigir al index al “cerrar” (reemplaza botón Nueva consulta)
+    const goHome = () => { window.location.href = "{{ url_for('index') }}"; };
+
+    document.getElementById('btnClose').addEventListener('click', goHome);
+
+    // Cerrar al hacer click fuera del modal
+    document.getElementById('backdrop').addEventListener('click', (e)=>{
+      if(e.target.id === 'backdrop') goHome();
+    });
+
+    // Cerrar con la tecla Escape
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape') goHome();
+    });
+  </script>
+</body>
+</html>
