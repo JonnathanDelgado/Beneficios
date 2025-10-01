@@ -4,14 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Inicio · Gpon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-HXr7+Xw5l4kz0Uht5Ec3hFW+e5kZ3Q52TnPGyY2IpbXfS5mDmyZgZ2h8u9JjHnTtL7VYoY3Su+FjAqgX3vsUqw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
 
 <header class="topbar">
   <div class="brand">
-    <div class="logo">Gpon</div>
-    <div class="sub">for Partners</div>
+    <div class="logo"><img src="/static/conten/Gponblack.svg" alt=""></div>
+    <div class="sub"><img src="/static/conten/forpartnersblack.svg" alt=""></div>
   </div>
   <nav class="top-actions">
     <a class="btn btn-outline" href="{{ url_for('logout') }}">
@@ -35,25 +36,29 @@
       <div class="card">
         <h3>Verificador de usuarios</h3>
         <form method="post" action="{{ url_for('consultar') }}" class="verify-form">
+          
           <label>
-            Tipo de documento
-            <select name="select_documento" required>
-              <option value="DNI">DNI</option>
-              <option value="Carnet de Extranjeria">Carnet de Extranjería</option>
-            </select>
-          </label>
-
-          <label>
-            Número
-            <input name="documento" type="text" placeholder="Ej. 12345678" required>
-          </label>
-
-          <label>
-            Tipo
+            <img src="/static/conten/perfil.png" alt="">
             <select name="tipo">
               <option value="cliente">Cliente</option>
               <option value="trabajador">Trabajador</option>
             </select>
+          </label>
+          
+          <label class="containerlabel">
+            <div>
+              <img src="/static/conten/doc.svg" alt="">
+              <select name="select_documento" required>
+                <option value="DNI">DNI</option>
+                <option value="Carnet de Extranjeria">Carnet de Extranjería</option>
+              </select>
+            </div>
+            <div>
+              <label>
+                <input class="inputdoc" name="documento" type="text" placeholder="Ej. 12345678" required>
+                <img src="/static/conten/lupa.svg" alt="">
+              </label>
+            </div>
           </label>
 
           <button type="submit" class="btn btn-primary">Validar ahora</button>
@@ -69,6 +74,7 @@
 
     <div class="actions">
       <a class="btn btn-excel" href="#">
+      <img src="/static/conten/excel.svg" alt="">
         Subir beneficiarios
       </a>
     </div>

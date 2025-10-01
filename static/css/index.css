@@ -1,6 +1,6 @@
 :root {
-  --bg: #f4f4f4;
-  --card: #ffffff;
+  --bg: #F1F1F1;
+  --card: #F1F1F1;
   --text: #262626;
   --muted: #6b7280;
   --brand: #ff6a1a;
@@ -16,9 +16,10 @@
 html, body {
   margin: 0;
   padding: 0;
+  height: 100%;
   background: var(--bg);
   color: var(--text);
-  font-family: Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: 'Readex Pro', sans-serif;
 }
 
 a {
@@ -31,8 +32,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 28px;
-  background: #fff;
+  padding: 4rem;
+  background: #F1F1F1;
   border-bottom: 1px solid var(--line);
 }
 
@@ -42,22 +43,20 @@ a {
   gap: 10px;
 }
 
-.logo {
-  font-size: 34px;
-  font-weight: 800;
-  letter-spacing: .5px;
+.logo img {
+  height: 56px;
 }
 
-.sub {
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 4px;
+.sub img {
+  height: 15px;
+  margin-bottom: 0.9rem;
 }
 
 /* Botones */
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   border: 1px solid var(--line);
   background: #fff;
@@ -66,12 +65,19 @@ a {
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
+  transition: all 0.3s ease;
+  text-align: center;
 }
 
 .btn-outline {
   background: #111827;
   color: #fff;
   border-color: #111827;
+}
+
+.btn-outline:hover {
+  background: #374151;
+  border-color: #374151;
 }
 
 .btn-primary {
@@ -94,15 +100,20 @@ a {
   border-radius: 12px;
 }
 
+.btn-excel:hover {
+  background: #374151;
+  border-color: #374151;
+}
+
 /* Contenedor principal */
 .container {
   max-width: 1080px;
-  margin: 0 auto;
-  padding: 40px 20px;
+  margin-left: 3rem;
+  padding: 0px 20px 20px 20px;
 }
 
 .hero h1 {
-  font-size: 28px;
+  font-size: 25px;
   margin: 0 0 10px;
 }
 
@@ -112,7 +123,9 @@ a {
 
 .lead {
   color: var(--muted);
+  font-size: 18px;
   max-width: 800px;
+  line-height: 1.6;
 }
 
 /* Grid */
@@ -133,7 +146,7 @@ a {
 /* Card */
 .card {
   background: var(--card);
-  border: 1px solid var(--line);
+  border: 1px solid #000000;
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 2px 10px rgba(0,0,0,.04);
@@ -143,28 +156,110 @@ a {
   margin: 0 0 14px;
   font-size: 16px;
   color: var(--muted);
+  font-weight: 600;
 }
 
+/* Formulario de verificación - ESTRUCTURA ACTUALIZADA */
 .verify-form {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
 
+/* Labels individuales */
 .verify-form label {
+  position: relative;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   font-size: 14px;
+}
+
+/* Contenedor para DNI + Input (fila horizontal) */
+.containerlabel {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.containerlabel > div {
+  position: relative;
+  flex: 1;
+}
+
+/* Select de Tipo (Cliente/Trabajador) */
+.verify-form label:first-child {
+  width: 100%;
+}
+
+/* Select de Documento (DNI/Carnet) */
+.containerlabel > div:first-child {
+  flex: 0 0 180px;
+}
+
+/* Input de número de documento - ALARGADO */
+.containerlabel > div:last-child {
+  flex: 1;
+  min-width: 200px;
 }
 
 .verify-form input,
 .verify-form select {
   width: 100%;
-  padding: 12px 14px;
+  padding: 12px 14px 12px 3rem;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: #fff;
+  background: #FFFFFF;
   font-size: 14px;
   outline: none;
+  transition: all 0.3s ease;
+  font-family: 'Readex Pro', sans-serif;
+}
+
+/* Input específico para documento */
+.inputdoc {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.verify-form input:focus,
+.verify-form select:focus {
+  border-color: var(--brand-600);
+  box-shadow: 0 0 0 3px rgba(255, 106, 26, 0.1);
+}
+
+/* Iconos dentro de los inputs - CORREGIDOS */
+.verify-form label img,
+.containerlabel div label img {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Estilo para el select personalizado */
+.verify-form select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 14px;
+}
+
+/* Botón Validar ahora */
+.verify-form .btn-primary {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Imagen de la derecha */
@@ -182,12 +277,90 @@ a {
   display: block;
 }
 
+/* Actions section */
+.actions {
+  text-align: start;
+  margin-top: 2rem;
+}
+
+.actions .btn-excel {
+  width: 100%;
+  max-width: 336px ;
+  padding: 14px 24px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.actions .btn-excel img {
+  width: 20px;
+  height: 20px;
+}
+
 /* Footer */
 .footer {
+  width: 100%;
+  background-color: #000000;
   margin-top: 40px;
   padding: 24px;
   text-align: center;
   font-weight: 700;
   font-size: 20px;
-  color: #1f2937;
+  color: #FFFFFF;
+  position: absolute;
+  bottom: 0;
+}
+
+/* Estados hover para mejor UX */
+.verify-form select:hover,
+.verify-form input:hover {
+  border-color: var(--brand-600);
+}
+
+/* Responsive adicional */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 2rem;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .container {
+    margin-left: 1rem;
+    padding: 0px 15px 20px 15px;
+  }
+
+  .containerlabel {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .containerlabel > div:first-child,
+  .containerlabel > div:last-child {
+    flex: 1;
+    min-width: 100%;
+    width: 100%;
+  }
+  
+  .brand {
+    align-items: center;
+  }
+  
+  .sub img {
+    margin-bottom: 0;
+  }
+  
+  /* Botón responsive */
+  .verify-form .btn-primary {
+    max-width: 100%;
+  }
+}
+
+/* Asegurar que los iconos no interfieran con la interacción */
+.verify-form label {
+  cursor: text;
+}
+
+.verify-form label:has(select) {
+  cursor: pointer;
 }

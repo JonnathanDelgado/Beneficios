@@ -1,0 +1,121 @@
+/* resultado.css - Estilos específicos para resultado.html */
+
+/* Ocultar elementos no deseados y reset */
+body {
+    background: rgba(0, 0, 0, 0.8) !important; /* Fondo oscuro */
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+    width: 100vw !important;
+}
+
+/* Ocultar header, navbar, footer y otros elementos */
+header, nav, .navbar, .header, footer, .welcome-message {
+    display: none !important;
+}
+
+/* Ventana flotante centrada */
+body > .card {
+    background: white !important;
+    width: 500px !important;
+    height: 300px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    padding: 30px !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+}
+
+/* Estilo del título */
+body > .card h2 {
+    color: #333 !important;
+    font-size: 24px !important;
+    font-weight: bold !important;
+    margin-bottom: 30px !important;
+    text-align: center !important;
+    width: 100% !important;
+}
+
+/* Estilo de la información del resultado */
+body > .card .result {
+    width: 100% !important;
+    text-align: center !important;
+}
+
+body > .card .result p {
+    margin-bottom: 15px !important;
+    font-size: 16px !important;
+    color: #333 !important;
+}
+
+body > .card .result p strong {
+    color: #555 !important;
+    font-weight: 600 !important;
+}
+
+/* Estilo de los badges de estado */
+body > .card .badge {
+    padding: 6px 12px !important;
+    border-radius: 20px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
+
+body > .card .badge.ok {
+    background-color: #4CAF50 !important;
+    color: white !important;
+}
+
+body > .card .badge.bad {
+    background-color: #f44336 !important;
+    color: white !important;
+}
+
+body > .card .badge.warn {
+    background-color: #ff9800 !important;
+    color: white !important;
+}
+
+/* Estilo del mensaje adicional */
+body > .card .muted {
+    color: #666 !important;
+    font-style: italic !important;
+    margin-top: 20px !important;
+    font-size: 14px !important;
+}
+
+/* Estilo del botón */
+body > .card .btn {
+    background: #007bff !important;
+    color: white !important;
+    padding: 12px 30px !important;
+    border-radius: 6px !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    margin-top: 20px !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: background 0.3s ease !important;
+}
+
+body > .card .btn:hover {
+    background: #0056b3 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3) !important;
+}
+
+/* Asegurar que no haya scroll */
+html, body {
+    overflow: hidden !important;
+}
