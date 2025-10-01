@@ -22,6 +22,21 @@
 </header>
 
 <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-container">
+          {% for category, message in messages %}
+            {% if category in ["success", "error"] %}
+              <div class="flash-message {{ category }}">
+                <span>{{ message }}</span>
+                <button class="close-btn">&times;</button>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
   <section class="hero">
     <h1>Bienvenido, <span class="username">@{{ session.get('user', 'name') }}</span>!</h1>
     <p class="lead">
@@ -36,7 +51,7 @@
       <div class="card">
         <h3>Verificador de usuarios</h3>
         <form method="post" action="{{ url_for('consultar') }}" class="verify-form">
-          
+
           <label>
             <img src="/static/conten/perfil.png" alt="">
             <select name="tipo">
@@ -44,7 +59,7 @@
               <option value="trabajador">Trabajador</option>
             </select>
           </label>
-          
+
           <label class="containerlabel">
             <div>
               <img src="/static/conten/doc.svg" alt="">
@@ -95,6 +110,22 @@
           }
         });
       })();
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".flash-message .close-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          btn.parentElement.remove();
+        });
+      });
+
+      // Auto cerrar después de 5 segundos
+      setTimeout(() => {
+        document.querySelectorAll(".flash-message").forEach(msg => {
+          msg.remove();
+        });
+      }, 5000);
+    });
     </script>
 
   </section>

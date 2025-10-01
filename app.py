@@ -65,9 +65,13 @@ def login():
         nxt = request.form.get("next") or request.args.get("next") or url_for("index")
         try:
             ok, name = verify_login(username, password)
+            
             if ok:
                 session["user"] = name  # Guardamos el `name` en la sesión
-                flash(f"Bienvenido, {name}.", "success")
+                if username.lower() == "gponadmin":
+                    return redirect(url_for("partners"))
+                
+                flash(f"Bienvenido, {name}.", "info")
                 return redirect(nxt)
             else:
                 flash("Usuario o contraseña incorrectos.", "error")
@@ -130,8 +134,38 @@ def upload_beneficiarios():
     save_path = os.path.join(user_dir, new_name)
     f.save(save_path)
 
-    flash(f"Archivo subido como {new_name} en la carpeta {user_slug}/", "success")
+    flash("Archivo subido exitosamente", "success")
     return redirect(url_for("index"))
+
+# Simulación (luego lo reemplazamos por DB)
+FAKE_PARTNERS = [
+    {"id": "p001", "nombre": "Partner Alfa"},
+    {"id": "p002", "nombre": "Partner Beta"},
+    {"id": "p003", "nombre": "Partner Gamma"},
+]
+
+@app.route("/partners", methods=["GET"])
+@login_required
+def partners():
+    return render_template("partners.html", partners=FAKE_PARTNERS)
+
+@app.route("/consultar_partner", methods=["POST"])
+@login_required
+def consultar_partner():
+    partner_id = request.form.get("partner_id", "").strip()
+    if not partner_id:
+        flash("Debes seleccionar un partner.", "error")
+        return redirect(url_for("partners"))
+
+    # Aquí harás la lógica de consulta real por partner_id
+    # Por ahora, solo confirmamos
+    sel = next((p for p in FAKE_PARTNERS if p["id"] == partner_id), None)
+    if not sel:
+        flash("El partner seleccionado no existe.", "error")
+        return redirect(url_for("partners"))
+
+    flash(f"Consulta realizada para: {sel['nombre']}", "success")
+    return redirect(url_for("partners"))
 
 
 if __name__ == "__main__":
