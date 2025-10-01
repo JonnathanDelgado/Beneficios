@@ -60,3 +60,44 @@ def verify_login(usuario: str, password: str) -> Tuple[bool, Optional[str]]:
                 return False, None
         finally:
             conn.close()
+
+
+def get_all_partners() -> list[dict]:
+    """
+    Retorna una lista de diccionarios con la forma:
+    {"id": "p001", "nombre": "Nombre Usuario"}
+    usando los datos de la columna `name` de la tabla `users`,
+    excluyendo el nombre 'Administrador'.
+    """
+    with sshtunnel.SSHTunnelForwarder(
+        SSH_HOST,
+        ssh_username=SSH_USER,
+        ssh_password=SSH_PASS,
+        remote_bind_address=(REMOTE_DB_HOST, REMOTE_DB_PORT),
+        allow_agent=False,
+        host_pkey_directories=[],
+    ) as tunnel:
+        conn = MySQLdb.connect(
+            host='127.0.0.1',
+            port=tunnel.local_bind_port,
+            user=DB_USER,
+            passwd=DB_PASS,
+            db=DB_NAME,
+            charset="utf8mb4",
+        )
+        try:
+            cur = conn.cursor()
+            cur.execute("SELECT name FROM users WHERE name <> 'Administrador'")
+            rows = cur.fetchall()  # [(name1,), (name2,), ...]
+
+            partners = []
+            for i, row in enumerate(rows, start=1):
+                partners.append({
+                    "id": f"p{i:03d}",   # genera p001, p002, ...
+                    "nombre": row[0]     # el valor de name
+                })
+
+            cur.close()
+            return partners
+        finally:
+            conn.close()

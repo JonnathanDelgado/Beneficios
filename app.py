@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from functools import wraps
 import Verificacion as verif
 from db_auth import verify_login
+from db_auth import get_all_partners
 import os
 from datetime import datetime
 from werkzeug.utils import secure_filename
@@ -137,16 +138,12 @@ def upload_beneficiarios():
     flash("Archivo subido exitosamente", "success")
     return redirect(url_for("index"))
 
-# Simulación (luego lo reemplazamos por DB)
-FAKE_PARTNERS = [
-    {"id": "p001", "nombre": "Partner Alfa"},
-    {"id": "p002", "nombre": "Partner Beta"},
-    {"id": "p003", "nombre": "Partner Gamma"},
-]
-
 @app.route("/partners", methods=["GET"])
 @login_required
 def partners():
+    # obtner partners de la base de datos
+    global FAKE_PARTNERS
+    FAKE_PARTNERS = get_all_partners()
     return render_template("partners.html", partners=FAKE_PARTNERS)
 
 @app.route("/consultar_partner", methods=["POST"])
