@@ -7,8 +7,6 @@
 
   <style>
     :root{
-      --bg: #0b1220;
-      --card: #111827;
       --text: #e5e7eb;
       --muted:#9ca3af;
       --line:#30343b;
@@ -19,20 +17,25 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      margin:0; 
+      font-family: 'Readex Pro', sans-serif;
       color:var(--text);
-      background:
-        radial-gradient(1200px 800px at 10% -10%, rgba(37,99,235,.18), transparent),
-        radial-gradient(900px 600px at 110% 10%, rgba(16,185,129,.14), transparent),
-        var(--bg);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     }
 
     /* Capa difusa + oscurecida, como la captura */
     .backdrop{
+      background: url(/static/conten/fondo.png) no-repeat center center fixed;
+      height: 100%;
+      width: 100%;
+      background-size: cover;
       position:fixed; inset:0;
-      background: rgba(2,6,23,.35);      /* oscurece */
-      backdrop-filter: blur(10px);        /* difumina */
-      -webkit-backdrop-filter: blur(10px);
+      /*background: transparent;*/      /* oscurece */
+      /*backdrop-filter: blur(10px);*/        /* difumina */
+      /*-webkit-backdrop-filter: blur(10px);*/
       display:grid; place-items:center;
       padding: 24px;
     }
@@ -41,38 +44,38 @@
     .card{
       position:relative;
       width:min(680px, 100%);
-      background: linear-gradient(180deg, rgba(255,255,255,.045), transparent 30%), var(--card);
       border:1px solid var(--line);
       border-radius:16px;
       box-shadow:
         0 12px 40px rgba(0,0,0,.45),
         inset 0 1px 0 rgba(255,255,255,.03);
       padding:18px;
-      animation: pop .18s ease-out;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
     @keyframes pop{from{opacity:.6; transform: translateY(8px) scale(.98)}}
 
     .title-row{display:flex; gap:14px; align-items:center; margin-bottom:12px}
-    .title-row .label{font-weight:600; color:#e2e8f0}
+    .title-row .label{font-weight:600; color: #000000;}
     .pill{
-      display:inline-block; padding:6px 12px; border-radius:999px; font-weight:700; font-size:.9rem;
-      background:#0b1b12; border:1px solid rgba(22,163,74,.55); color:#dcfce7;
+      display:inline-block; padding:6px 12px; border-radius:5px; font-weight:700; font-size:.9rem;
+      background:#47AE02; border:1px solid rgba(22,163,74,.55); color: #FFFFFF;
     }
     .pill.bad   { background:#1b0f11; border-color: rgba(220,38,38,.55); color:#fee2e2;}
     .pill.warn  { background:#1b160b; border-color: rgba(217,119,6,.55);  color:#fffbeb;}
 
     .row{
-      margin-top:10px; background:#0f1524; border:1px solid var(--line); border-radius:12px;
-      display:flex; align-items:center; padding:10px 12px; gap:12px;
+      margin-top:10px; background:#D9D9D917; border:1px solid var(--line); border-radius:12px;
+      display:flex; align-items:center; padding:10px 12px; gap:12px; color: #000000;
     }
     .avatar{
-      width:28px; height:28px; border-radius:999px; display:grid; place-items:center;
-      background:#0b1220; border:1px solid #2a3140; font-size:14px;
+      width:28px; height:28px; border-radius:999px; display:grid; place-items:center; font-size:14px;
     }
     .name{flex:1; letter-spacing:.3px}
     .okmark{
-      width:22px; height:22px; border-radius:999px; border:1px solid rgba(255,255,255,.1);
-      display:grid; place-items:center; background:#0b1220;
+      width:24px; border-radius:999px;
+      display:grid; place-items:center  ; color: #000000; font-size:20px;
     }
 
     /* Botón X flotante */
@@ -87,9 +90,11 @@
 
     .muted{color:var(--muted); margin:10px 2px 0}
     .footer-bar{
-      position:fixed; left:0; right:0; bottom:0; height:56px;
+      position:fixed; left:0; right:0; bottom:0; height:85px;
       display:grid; place-items:center;
-      color:#e5e7eb; letter-spacing:.4px; background:#0b1220; border-top:1px solid #1f2937;
+      color:#FFFFFF; letter-spacing:.4px; background:#000000; border-top:1px solid #1f2937; 
+      font-family: 'Readex Pro', sans-serif;
+      font-size: 28px;
     }
 
     /* Accesibilidad para usuarios que prefieren menos animación */
@@ -114,7 +119,7 @@
       </div>
 
       <div class="row" aria-live="polite">
-        <div class="avatar" aria-hidden="true">👤</div>
+        <div class="avatar" aria-hidden="true"><img src="/static/conten/doc.svg" alt=""></div>
         <div class="name">
           {{ (data.nombre_cliente or '—') | upper }}
         </div>

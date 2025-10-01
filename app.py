@@ -102,6 +102,7 @@ def consultar():
     resultado = consulta_principal(documento, tipo, select_documento)
     return render_template("resultado.html", data=resultado)
 
+
 @app.route("/upload_beneficiarios", methods=["POST"])
 @login_required
 def upload_beneficiarios():
@@ -110,23 +111,26 @@ def upload_beneficiarios():
         flash("No se seleccionó archivo.", "error")
         return redirect(url_for("index"))
 
+    # Validar extensión
     if not _allowed_excel(f.filename):
         flash("Extensión no permitida. Usa .xlsx, .xls o .csv.", "error")
         return redirect(url_for("index"))
 
-    # nombre seguro + extensión
+    # Carpeta por usuario (según el nombre guardado en la sesión)
+    user_name = session.get("user", "user")
+    user_slug = _slugify_user(user_name)
+    user_dir = os.path.join(app.config["BENEFICIARIOS_DIR"], user_slug)
+    os.makedirs(user_dir, exist_ok=True)
+
+    # Renombrar por fecha/hora actual y conservar extensión
     safe_original = secure_filename(f.filename)
     ext = "." + safe_original.rsplit(".", 1)[1].lower()
+    new_name = datetime.now().strftime("%Y%m%d_%H%M%S") + ext
 
-    # YYYYMMDD_HHMMSS_usuario.ext
-    now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
-    user_slug = _slugify_user(session.get("user"))
-    new_name = f"{now_str}_{user_slug}{ext}"
+    save_path = os.path.join(user_dir, new_name)
+    f.save(save_path)
 
-    dest = os.path.join(app.config["BENEFICIARIOS_DIR"], new_name)
-    f.save(dest)
-
-    flash(f"Archivo subido como {new_name}.", "success")
+    flash(f"Archivo subido como {new_name} en la carpeta {user_slug}/", "success")
     return redirect(url_for("index"))
 
 

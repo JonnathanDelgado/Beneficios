@@ -73,11 +73,30 @@
     </div>
 
     <div class="actions">
-      <a class="btn btn-excel" href="#">
-      <img src="/static/conten/excel.svg" alt="">
-        Subir beneficiarios
-      </a>
+      <form id="uploadForm" method="POST" action="{{ url_for('upload_beneficiarios') }}" enctype="multipart/form-data">
+        <input type="file" name="file" id="fileInput" accept=".xlsx,.xls,.csv" hidden>
+        <button type="button" class="btn btn-excel" id="uploadBtn">
+          <img src="/static/conten/excel.svg" alt="">
+          Subir beneficiarios
+        </button>
+      </form>
     </div>
+
+    <script>
+      (function () {
+        const btn = document.getElementById('uploadBtn');
+        const input = document.getElementById('fileInput');
+        const form = document.getElementById('uploadForm');
+
+        btn.addEventListener('click', () => input.click());
+        input.addEventListener('change', () => {
+          if (input.files && input.files.length > 0) {
+            form.submit();
+          }
+        });
+      })();
+    </script>
+
   </section>
 </main>
 
