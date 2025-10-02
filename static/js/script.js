@@ -94,25 +94,28 @@
       }
   }
 
-  // ===== INICIALIZACIÓN AL CARGAR LA PÁGINA =====
-  document.addEventListener("DOMContentLoaded", function() {
-      initializeSelectValues();
-      setupSelectOptions();
-      setupPasswordToggle();
-  });
+ document.addEventListener("DOMContentLoaded", () => {
+  // ===== LÓGICA SUBIDA DE ARCHIVO =====
+  const btn = document.getElementById("uploadBtn");
+  const input = document.getElementById("fileInput");
+  const form = document.getElementById("uploadForm");
 
-
-
-    document.addEventListener("DOMContentLoaded", () => {
-    const overlay = document.querySelector(".popup-overlay");
-    if (overlay) {
-        setTimeout(() => {
-        overlay.style.transition = "opacity 0.4s ease";
-        overlay.style.opacity = "0";
-        setTimeout(() => overlay.remove(), 400); // remover tras animación
-        }, 3000); // 5 segundos
-    }
+  if (btn && input && form) {
+    btn.addEventListener("click", () => input.click());
+    input.addEventListener("change", () => {
+      if (input.files && input.files.length > 0) {
+        form.submit();
+      }
     });
+  }
 
-
-
+  // ===== AUTO-CIERRE DE POPUP FLASH =====
+  const overlay = document.querySelector(".popup-overlay");
+  if (overlay) {
+    setTimeout(() => {
+      overlay.style.transition = "opacity 0.4s ease";
+      overlay.style.opacity = "0";
+      setTimeout(() => overlay.remove(), 400);
+    }, 3000); // 3 segundos
+  }
+});
