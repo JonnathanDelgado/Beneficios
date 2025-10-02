@@ -1,0 +1,432 @@
+/**/
+/* Para wl ojito abierto del icono de 
+<i class="fa-thin fa-eye"></i>
+*/
+/*-------INICIO DE ESTILOS--------*/
+
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: 'Readex Pro', sans-serif;
+    }
+    html{
+        height: 100%;
+    }
+    body{
+        width: 100%;
+        min-height: 100%;
+        background-color: #00476D;
+    }
+
+    h1{
+        margin-top: 0;
+    }
+
+    /* Estilos para Login */
+
+    main{
+        height: 100vh;
+    }
+    .container{
+        width: 100%;
+        min-height: 100%;
+        display: grid;
+        grid-template-columns: 40% 60%;
+        grid-template-rows: 100%;
+        /*gap: 10px;*/
+    }
+
+    .card.card-centered{
+        width: 100%;
+        min-height: 100%;
+        /*Para diferenciar las columnas luego se quitara*/
+        /*background-color: aliceblue;*/
+    }
+
+    .card.card-centered video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* hace que el video ocupe todo el contenedor */
+        display: block;    /* quita espacios sobrantes a los bordes por inline-block */
+    }
+
+    .containerlogin{
+        height: 100%;
+        display: grid;
+        grid-template-rows: 20% 80%; 
+    }
+
+    /* Contenedor del login margin arriba y izquierda se puede cambiar si se necesitan medidas exactas en px*/
+    .containerlogo{
+        padding-left: 4em;
+        padding-top: 4em;
+    }
+    
+    .containerform{
+        /*text-align: center;*/
+        padding: 4em;
+        padding-top: 2rem;
+        box-sizing: border-box;
+    }
+
+    .forpartner{
+        padding-bottom: 0.9rem;
+    }
+
+    form{
+        display: grid;
+        grid-template-rows: 6em 6em 6em 6em;
+        justify-content: left;
+    }
+
+    /* Select personalizado */
+    /*.selectbox {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+    }
+    .selectbox p {
+        margin: 0;
+        color: #333;
+    }*/
+
+    /* Inputs */
+    label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: #FFFFFF;
+    }
+
+    input {
+        width: 530px;
+        max-width: 100%;
+        background-color: #FFFFFF;
+        height: 64px;
+        padding: 14px;
+        border: none;
+        border-radius: 10px;
+        font-size: 14px;
+        margin-top: 5px;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    /* Botón */
+    button {
+        width: 21em;
+        padding: 15px;
+        background-color: #FF7620; /* naranja */
+        color: #FFFFFF;
+        font-size: 16px;
+        /*font-weight: bold;*/
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        text-align: center;
+    }
+    
+    .GR4{
+        text-align: center;
+        justify-items: center;
+    }
+
+    button:hover {
+        background-color: #e65d0e;
+    }
+
+    /*--------------------------------------------------------------*/
+
+    /* Contenedor principal */
+
+    .GR1{
+        text-align: start;
+
+    }
+
+    /* Trigger (lo que se ve cerrado) */
+    .select-trigger {
+        width: 530px;
+        height: 64px;
+        background: #FFFFFF;
+        padding: 15px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        text-align: center;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+    .select-trigger .arrow {
+        border: solid #333;
+        border-width: 0 2px 2px 0;
+        padding: 5px;
+        transform: rotate(45deg);
+        transition: 0.3s;
+    }
+
+    .custom-select {
+        position: relative; /* referencia */
+        width: 100%;
+        max-width: 530px;
+        font-family: 'Readex Pro', sans-serif;
+        z-index: 100; /* aseguramos que tenga prioridad */
+    }
+
+    .options {
+        position: absolute; /* se desprende debajo del trigger */
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #FFFFFF;
+        border-radius: 10px 10px 10px 10px; 
+        display: none;
+        flex-direction: column;
+        padding: 10px 0;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        z-index: 200; /* sobre todo */
+        box-sizing: border-box;
+    }
+
+    /* Mostrar cuando está activo */
+    .custom-select.open .options {
+        display: flex;
+    }
+
+    /* Cada opción */
+    .option {
+        max-width: 530px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* radio+texto a la izquierda, imagen a la derecha */
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: background 0.3s;
+        box-sizing: border-box;
+    }
+
+    .option:hover {
+        background: #f2f2f2;
+    }
+
+    /* Ocultar radio original */
+    .option input[type="radio"] {
+        display: none;
+    }
+
+    /* Radio estilizado */
+    .option .radio {
+        width: 14px;
+        height: 14px;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        margin-right: 10px;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .option input[type="radio"]:checked + .radio {
+        border-color: #ff6f1e;
+    }
+
+    .option input[type="radio"]:checked + .radio::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 6px;
+        height: 6px;
+        background: #ff6f1e;
+        border-radius: 50%;
+    }
+
+    /* Texto */
+    .option .text {
+        flex: 1;
+        font-size: 14px;
+        color: #333;
+    }
+
+    /* Imagen del logo (lado derecho) */
+    .option img {
+        width: 90px;
+        height: auto;
+        border-radius: 6px;
+        margin-left: 15px;
+        object-fit: contain;
+    }
+
+    /*--------------------------------------------------------------*/
+
+    /* General para inputs */
+    .GR2 label, .GR3 label {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: #FFFFFF;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 530px;
+        padding: 0; /* deja espacio para los íconos */
+        height: 64px;
+        padding-left: 2.5rem;
+        box-sizing: border-box;
+    }
+
+    .GR2 input, .GR3 input {
+        border: none;
+        outline: none;
+        flex: 1;
+        font-size: 15px;
+        margin: 0;
+        background: #FFFFFF;
+    }
+
+    /* Íconos de los inputs */
+    .iconoinput {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 24px;
+    }
+
+    .GR2 .iconoinput img,
+    .GR3 .iconoinput img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Ícono a la izquierda */
+    .GR2 .iconoinput:first-child,
+    .GR3 .iconoinput:first-child {
+        left: 15px;
+    }
+
+    /* Ícono del ojo a la derecha */
+    .GR3 .iconoinput:last-child {
+        right: 15px;
+        cursor: pointer;
+    }
+
+    /*--------------------------------------------------------------*/
+
+    /* Overlay de fondo */
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+    }
+
+    /* Caja del pop up */
+    .popup {
+        background: #fff;
+        padding: 1.2rem 1.5rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        max-width: 350px;
+        width: 90%;
+        position: relative;
+        animation: fadeIn 0.3s ease-out;
+        font-family: 'Readex Pro', sans-serif;
+        text-align: center;
+    }
+
+    /* Botón de cierre */
+    .popup-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: #f3f4f6;
+        border: none;
+        font-size: 1.1rem;
+        color: #333;
+        cursor: pointer;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease;
+    }
+    .popup-close:hover {
+        background: #e5e7eb;
+    }
+
+    /* Lista de mensajes */
+    .flash {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .flash li {
+        padding: 0.7rem 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    .flash-success { background: #d1fae5; color: #065f46; }
+    .flash-error   { background: #fee2e2; color: #991b1b; }
+    .flash-warning { background: #fef3c7; color: #92400e; }
+
+    @keyframes fadeIn { 
+        from { opacity: 0; transform: scale(0.9); }
+        to   { opacity: 1; transform: scale(1); }
+    }
+
+
+    /*--------------------------------------------------------------*/
+
+    /* Link de recuperar contraseña */
+    .hint, 
+    a {
+        text-align: center;
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        display: block;
+        margin-top: 15px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    p{
+        color: #FFFFFF;
+    }
+    /*
+    div.container{
+        position: absolute;
+        width: 100%;
+        height: 85px;
+        bottom: 0;
+    }*/
+
+    /*Esconde el Footer y header solo en la pagina de Login*/
+
+    .Iniciar.sesión footer .container {
+        display: none;
+      }
+
+      .Iniciar.sesión header{
+        display: none;
+    }

@@ -17,25 +17,25 @@
   <nav class="top-actions">
     <a class="btn btn-outline" href="{{ url_for('logout') }}">
       Cerrar sesión
+      <img src="/static/conten/ph_sign-out-thin.svg" alt="">
     </a>
   </nav>
 </header>
 
 <main class="container">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div class="flash-container">
-          {% for category, message in messages %}
-            {% if category in ["success", "error"] %}
-              <div class="flash-message {{ category }}">
-                <span>{{ message }}</span>
-                <button class="close-btn">&times;</button>
-              </div>
-            {% endif %}
-          {% endfor %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="popup-overlay">
+        <div class="popup">
+          <ul class="flash">
+            {% for category, message in messages %}
+              <li class="flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
         </div>
-      {% endif %}
-    {% endwith %}
+      </div>
+    {% endif %}
+  {% endwith %}
 
   <section class="hero">
     <h1>Bienvenido, <span class="username">@{{ session.get('user', 'name') }}</span>!</h1>

@@ -102,3 +102,17 @@
   });
 
 
+
+    document.addEventListener("DOMContentLoaded", () => {
+    const overlay = document.querySelector(".popup-overlay");
+    if (overlay) {
+        setTimeout(() => {
+        overlay.style.transition = "opacity 0.4s ease";
+        overlay.style.opacity = "0";
+        setTimeout(() => overlay.remove(), 400); // remover tras animación
+        }, 3000); // 5 segundos
+    }
+    });
+
+
+
