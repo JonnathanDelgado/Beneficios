@@ -8,14 +8,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-HXr7+Xw5l4kz0Uht5Ec3hFW+e5kZ3Q52TnPGyY2IpbXfS5mDmyZgZ2h8u9JjHnTtL7VYoY3Su+FjAqgX3vsUqw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
-<body class="login-page">
-
   <main class="container">
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
-        <div class="popup-overlay" id="popupOverlay">
-          <div class="popup" id="popupMessage">
-            <button class="popup-close" id="popupClose">&times;</button>
+        <div class="popup-overlay">
+          <div class="popup">
             <ul class="flash">
               {% for category, message in messages %}
                 <li class="flash-{{ category }}">{{ message }}</li>
@@ -25,75 +22,76 @@
         </div>
       {% endif %}
     {% endwith %}
-
-    <div class="card card-centered login-card">
-      <div class="containerlogin">
-        <div class="containerlogo">
-          <img src="{{ url_for('static', filename='conten/logo1partners.svg') }}" alt="Logo 1">
-          <img class="forpartner" src="{{ url_for('static', filename='conten/logo2.svg') }}" alt="Logo 2">
-        </div>
-        <div class="containerform">
-          <form method="post" class="form">
-            <div class="GR1">
-              <div class="custom-select">
-                <div class="select-trigger">
-                  <span>Soy un proveedor</span>
-                  <i class="arrow"></i>
-                </div>
-                <div class="options">
-                  <label class="option">
-                    <input type="radio" name="proveedor" id="1" checked>
-                    <span class="radio"></span>
-                    <span class="text">Lima - Comas - Clínica Gonzales</span>
-                    <img src="/static/conten/iconselect.svg" alt="Logo Gonzales">
-                  </label>
-                  <label class="option">
-                    <input type="radio" name="proveedor" id="2">
-                    <span class="radio"></span>
-                    <span class="text">Lima - Comas - Clínica Universitaria</span>
-                    <img src="/static/conten/iconselect.svg" alt="Logo Salud">
-                  </label>
-                  <label class="option">
-                    <input type="radio" name="proveedor" id="3">
-                    <span class="radio"></span>
-                    <span class="text">Cusco - Av. Perú - Clínica Inka</span>
-                    <img src="/static/conten/iconselect.svg" alt="Logo Inka">
-                  </label>
+    <body class="login-page">
+      <div class="card card-centered login-card">
+        <div class="containerlogin">
+          <div class="containerlogo">
+            <img src="{{ url_for('static', filename='conten/logo1partners.svg') }}" alt="Logo 1">
+            <img class="forpartner" src="{{ url_for('static', filename='conten/logo2.svg') }}" alt="Logo 2">
+          </div>
+          <div class="containerform">
+            <form method="post" class="form">
+              <div class="GR1">
+                <div class="custom-select">
+                  <div class="select-trigger">
+                    <span>Soy un proveedor</span>
+                    <i class="arrow"></i>
+                  </div>
+                  <div class="options">
+                    <label class="option">
+                      <input type="radio" name="proveedor" id="1" checked>
+                      <span class="radio"></span>
+                      <span class="text">Lima - Comas - Clínica Gonzales</span>
+                      <img src="/static/conten/iconselect.svg" alt="Logo Gonzales">
+                    </label>
+                    <label class="option">
+                      <input type="radio" name="proveedor" id="2">
+                      <span class="radio"></span>
+                      <span class="text">Lima - Comas - Clínica Universitaria</span>
+                      <img src="/static/conten/iconselect.svg" alt="Logo Salud">
+                    </label>
+                    <label class="option">
+                      <input type="radio" name="proveedor" id="3">
+                      <span class="radio"></span>
+                      <span class="text">Cusco - Av. Perú - Clínica Inka</span>
+                      <img src="/static/conten/iconselect.svg" alt="Logo Inka">
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="GR2">
-              <label>
-                <i class="iconoinput"><img src="/static/conten/user.svg" alt="usericon"></i>
-                <input name="username" type="text" placeholder="Usuario" autocomplete="username" required>
-              </label>
-            </div>
-            <div class="GR3">
-              <label>
-                <i class="iconoinput">
-                  <img src="/static/conten/key.svg" alt="usericoncontraseña">
-                </i>
-                <input id="password" name="password" type="password" placeholder="Contraseña" autocomplete="current-password" required>
-                <i class="iconoinput toggle-password">
-                  <img id="eyeIcon" src="/static/conten/eyeclose.svg" alt="iconeyes">
-                </i>
-              </label>
-            </div>
-            <div class="GR4">
-              <button class="btn btn-primary" type="submit">Ingresar</button>
-            </div>
-          </form>
+              <div class="GR2">
+                <label>
+                  <i class="iconoinput"><img src="/static/conten/user.svg" alt="usericon"></i>
+                  <input name="username" type="text" placeholder="Usuario" autocomplete="username" required>
+                </label>
+              </div>
+              <div class="GR3">
+                <label>
+                  <i class="iconoinput">
+                    <img src="/static/conten/key.svg" alt="usericoncontraseña">
+                  </i>
+                  <input id="password" name="password" type="password" placeholder="Contraseña" autocomplete="current-password" required>
+                  <i class="iconoinput toggle-password">
+                    <img id="eyeIcon" src="/static/conten/eyeclose.svg" alt="iconeyes">
+                  </i>
+                </label>
+              </div>
+              <div class="GR4">
+                <button class="btn btn-primary" type="submit">Ingresar</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="card card-centered login-video">
-      <video autoplay muted loop playsinline>
-        <source src="{{ url_for('static', filename='conten/loginvideo.mp4') }}" type="video/mp4">
-      </video>
-    </div>
+      <div class="card card-centered login-video">
+        <video autoplay muted loop playsinline>
+          <source src="{{ url_for('static', filename='conten/loginvideo.mp4') }}" type="video/mp4">
+        </video>
+      </div>
+    </body>
   </main>
 
   <script src="/static/js/script.js"></script>
-</body>
+
 </html>
