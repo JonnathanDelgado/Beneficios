@@ -132,7 +132,28 @@ def verificar_cliente_3_meses(cliente):
         return True, cliente['nombre']
     else:
         return False, cliente['nombre']
-
+    
+    
+def verificar_trabajador_3_meses(cliente):
+    # Asegurarnos de que el cliente tiene una fecha de instalación
+    if not cliente or not cliente['instalado']:
+        return False, cliente['nombre'] if cliente else "Desconocido"
+    
+    # Convertir la fecha de instalación a objeto datetime
+    fecha_instalada = datetime.strptime(cliente['instalado'], "%d/%m/%Y")
+    
+    # Obtener la fecha actual
+    fecha_actual = datetime.now()
+    
+    # Restar 3 meses a la fecha actual
+    fecha_limite = fecha_actual - relativedelta(months=3)
+    
+    # Comparar si la fecha de instalación es anterior a 3 meses respecto a la fecha actual
+    if fecha_instalada <= fecha_limite:
+        return True, cliente['nombre']
+    else:
+        return False, cliente['nombre']
+    
 # Ejemplo de uso:
 #idcliente = '20611943777'
 #Dpto = "Lima"
@@ -141,3 +162,14 @@ def verificar_cliente_3_meses(cliente):
 #cliente_antiguo = obtener_cliente_mas_antiguo(resultado)  # Suponiendo que ya obtuviste el cliente más antiguo
 #resultado_verificacion = verificar_cliente_3_meses(cliente_antiguo)
 #print(resultado_verificacion)  # Retornará True si tiene más de 3 meses, False si no
+
+#from sheet import buscar_cliente_por_dni
+#idcliente = "10778247"
+#trabajador = buscar_cliente_por_dni(idcliente)
+#if trabajador:
+    #booleano, nombre_cliente = verificar_trabajador_3_meses(trabajador)
+    #if booleano:
+        #print(nombre_cliente)
+    #else: print("DENEGADO")
+#else:
+     #print("No encontrado")

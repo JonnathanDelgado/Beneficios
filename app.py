@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from functools import wraps
 import Verificacion as verif
+from sheet import buscar_cliente_por_dni
 from db_auth import verify_login
 from db_auth import get_all_partners
 import os
@@ -56,7 +57,15 @@ def consulta_principal(documento: str, tipo: str, select_documento: str):
         else:
             return {"nombre_cliente": nombre_cliente, "documento": documento, "estado": "DENEGADO"}
     else:
-        return {"nombre_cliente": "Trabajador", "documento": documento, "estado": "falta que nos den la data"}
+        idcliente = documento
+        trabajador = buscar_cliente_por_dni(idcliente)
+        if trabajador:
+            booleano, nombre_cliente = verif.verificar_trabajador_3_meses(trabajador)
+            if booleano:
+                return {"nombre_cliente": nombre_cliente, "documento": documento, "estado": "APROBADO"}
+            else: return {"nombre_cliente": nombre_cliente, "documento": documento, "estado": "DENEGADO"}
+        else:
+            return {"nombre_cliente": "DESCONOCIDO", "documento": documento, "estado": "DENEGADO"}
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
