@@ -1,8 +1,3 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   body {
     margin: 0;
@@ -11,14 +6,19 @@
     color: #111;
   }
 
+  .table-wrap {
+    overflow-x: auto;          /* permite scroll horizontal si hace falta */
+  }
+
   table {
     border-collapse: collapse;
     width: 100%;
     border: 1px solid #d1d5db;
+    table-layout: fixed;        /* respeta las anchuras del <colgroup> */
   }
 
   thead th {
-    background: #ff6a1a;      /* color encabezado GPON */
+    background: #ff6a1a;
     color: #fff;
     font-weight: 700;
     text-align: center;
@@ -26,6 +26,7 @@
     border: 1px solid #e5e7eb;
     position: sticky;
     top: 0;
+    white-space: nowrap;        /* evita cortes feos en encabezado */
   }
 
   tbody td {
@@ -33,18 +34,16 @@
     padding: 8px 12px;
     border: 1px solid #e5e7eb;
     background: #ffffff;
+    overflow: hidden;           /* oculta overflow si la celda es más larga que su col */
+    text-overflow: ellipsis;    /* muestra “…” si se desborda */
+    white-space: nowrap;        /* si prefieres que no haga wrap en celdas */
   }
 
-  tbody tr:nth-child(even) {
-    background: #f9fafb;
-  }
-
-  tbody tr:hover {
-    background: #fff4ec;
-  }
+  tbody tr:nth-child(even) { background: #f9fafb; }
+  tbody tr:hover { background: #fff4ec; }
 </style>
-</head>
 <body>
-  {{ table_html|safe }}
+  <div class="table-wrap">
+    {{ table_html|safe }}
+  </div>
 </body>
-</html>

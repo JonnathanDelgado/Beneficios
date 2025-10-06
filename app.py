@@ -35,6 +35,36 @@ def _slugify_user(u: str) -> str:
     base = "".join(ch if ch.isalnum() or ch in ("-", "_") else "_" for ch in (u or "user"))
     return base.strip("_") or "user"
 
+def _col_widths_ch(df, sample_rows=50, min_ch=10, max_ch=40):
+    """
+    Calcula anchos por columna en 'ch' (caracteres) usando el largo máximo
+    del encabezado y de las primeras `sample_rows` filas.
+    """
+    widths = []
+    sample = df.head(sample_rows)
+    for col in sample.columns:
+        # largo del encabezado
+        max_len = len(str(col))
+        # largo máximo de celdas (convertidas a str, ignorando NaN)
+        max_cell = sample[col].astype(str).map(len).max() if not sample.empty else 0
+        max_len = max(max_len, int(max_cell or 0))
+        # margen + clamp
+        w = max(min_ch, min(max_ch, max_len + 2))
+        widths.append(w)
+    return widths
+
+def _inject_colgroup(table_html, widths_ch):
+    """
+    Inserta <colgroup> inmediatamente después de la etiqueta <table ...>.
+    """
+    colgroup = "<colgroup>" + "".join([f'<col style="width:{w}ch">' for w in widths_ch]) + "</colgroup>"
+    # insertar después del primer '>'
+    i = table_html.find(">")
+    if i != -1:
+        return table_html[:i+1] + colgroup + table_html[i+1:]
+    return table_html
+
+
 USERS = None  # autenticación delegada a verify_login (MySQL + SSH)
 
 def login_required(view_func):
@@ -158,9 +188,18 @@ def upload_beneficiarios():
         else:
             df = pd.read_excel(save_path)  # Primera hoja por defecto
 
+        # Detectar columnas tipo fecha y formatearlas
+        for col in df.select_dtypes(include=["datetime64[ns]"]).columns:
+            df[col] = df[col].dt.strftime("%d/%m/%Y")
+
         df_preview = df.head(30)  # limitar filas para rendimiento
         table_html = df_preview.to_html(index=False, classes="excel-table")
 
+        # ➊ calcular anchos en ch
+        widths = _col_widths_ch(df_preview, sample_rows=30, min_ch=8, max_ch=40)
+        # ➋ inyectar <colgroup> en el HTML
+        table_html = _inject_colgroup(table_html, widths)
+        # Guardar HTML en carpeta estática /tmp
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
         preview_filename = f"preview_{user_slug}_{ts}.html"
         preview_path = os.path.join(PREVIEW_DIR, preview_filename)
