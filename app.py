@@ -7,10 +7,16 @@ from db_auth import get_all_partners
 import os
 from datetime import datetime
 from werkzeug.utils import secure_filename
+import pandas as pd  # <-- NUEVO (pip install pandas openpyxl)
 
 # db_gpon
 app = Flask(__name__)
 app.secret_key = "dev"  # Cambia esto en producción
+
+# Ahora sí podemos usar app.static_folder
+PREVIEW_DIR = os.path.join(app.static_folder, 'tmp')
+os.makedirs(PREVIEW_DIR, exist_ok=True)
+
 # Carpeta destino en PythonAnywhere (se expande a /home/GPON2/Beneficiarios)
 app.config["BENEFICIARIOS_DIR"] = os.path.expanduser("~/Beneficiarios")
 os.makedirs(app.config["BENEFICIARIOS_DIR"], exist_ok=True)
@@ -102,7 +108,8 @@ def logout():
 @app.route("/", methods=["GET"])
 @login_required
 def index():
-    return render_template("index.html")
+    preview_url = session.pop("preview_url", None)  # <-- NUEVO
+    return render_template("index.html", preview_url=preview_url)  # <-- CAMBIO
 
 @app.route("/consultar", methods=["POST"])
 @login_required
@@ -129,7 +136,7 @@ def upload_beneficiarios():
     if not _allowed_excel(f.filename):
         flash("Extensión no permitida. Usa .xlsx, .xls o .csv.", "error")
         return redirect(url_for("index"))
-
+    
     # Carpeta por usuario (según el nombre guardado en la sesión)
     user_name = session.get("user", "user")
     user_slug = _slugify_user(user_name)
@@ -144,6 +151,39 @@ def upload_beneficiarios():
     save_path = os.path.join(user_dir, new_name)
     f.save(save_path)
 
+        # === NUEVO: Generar HTML de vista previa ===
+    try:
+        if ext == ".csv":
+            df = pd.read_csv(save_path)
+        else:
+            df = pd.read_excel(save_path)  # Primera hoja por defecto
+
+        df_preview = df.head(30)  # limitar filas para rendimiento
+        table_html = df_preview.to_html(index=False, classes="excel-table")
+
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+        preview_filename = f"preview_{user_slug}_{ts}.html"
+        preview_path = os.path.join(PREVIEW_DIR, preview_filename)
+
+        with open(preview_path, "w", encoding="utf-8") as fh:
+            fh.write(f"""<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body{{margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;}}
+  table{{border-collapse:collapse; width:100%;}}
+  th, td{{border:1px solid #e5e7eb; padding:8px; font-size:14px;}}
+  thead th{{position:sticky; top:0; background:#f3f4f6;}}
+</style></head>
+<body>{table_html}</body></html>""")
+
+        # Guardar URL en sesión para que index la lea
+        session["preview_url"] = url_for('static', filename=f'tmp/{preview_filename}')
+
+    except Exception as e:
+        print("[upload_beneficiarios] Error generando preview:", e)
+        flash("Archivo subido, pero no se pudo generar la vista previa.", "error")
+    
     flash("Archivo subido exitosamente", "success")
     return redirect(url_for("index"))
 

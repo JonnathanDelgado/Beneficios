@@ -83,9 +83,13 @@
 
       <!-- Lado derecho con imagen -->
       <div class="preview">
-        <img src="{{ url_for('static', filename='img/hoja.png') }}"
-             alt="Vista de Excel de ejemplo">
+        {% if preview_url %}
+          <iframe class="excel-preview" src="{{ preview_url }}" title="Vista previa de beneficiarios"></iframe>
+        {% else %}
+          <img src="{{ url_for('static', filename='img/hoja.png') }}" alt="Vista de Excel de ejemplo">
+        {% endif %}
       </div>
+
     </div>
 
     <div class="actions">
