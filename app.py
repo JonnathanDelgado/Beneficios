@@ -166,16 +166,9 @@ def upload_beneficiarios():
         preview_path = os.path.join(PREVIEW_DIR, preview_filename)
 
         with open(preview_path, "w", encoding="utf-8") as fh:
-            fh.write(f"""<!doctype html>
-<html lang="es"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-  body{{margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;}}
-  table{{border-collapse:collapse; width:100%;}}
-  th, td{{border:1px solid #e5e7eb; padding:8px; font-size:14px;}}
-  thead th{{position:sticky; top:0; background:#f3f4f6;}}
-</style></head>
-<body>{table_html}</body></html>""")
+            rendered_html = render_template("preview_template.html", table_html=table_html)
+            fh.write(rendered_html)
+
 
         # Guardar URL en sesión para que index la lea
         session["preview_url"] = url_for('static', filename=f'tmp/{preview_filename}')
