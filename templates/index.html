@@ -38,69 +38,81 @@
       {% endif %}
     {% endwith %}
 
-  <section class="hero">
-    <h1>Bienvenido, <span class="username">@{{ session.get('user', 'name') }}</span>!</h1>
-    <p class="lead">
-      En nuestro portal puedes validar tanto a los clientes y trabajadoras/es que
-      gozan del beneficio de nuestras alianzas. Es de suma importancia recordar la relevancia del
-      cuidado de esta información, quedando como responsabilidad legal de nuestro partner el uso
-      y tratamiento.
-    </p>
+  <div class="hero">
+    
+    <div class="base" id="base1">
+      <h1>Bienvenido, <span class="username">@{{ session.get('user', 'name') }}</span>!</h1>
+      <p class="lead">
+        En nuestro portal puedes validar tanto a los clientes y trabajadoras/es que
+        gozan del beneficio de nuestras alianzas. Es de suma importancia recordar la relevancia del
+        cuidado de esta información, quedando como responsabilidad legal de nuestro partner el uso
+        y tratamiento.
+      </p>
 
-    <div class="grid">
-      <!-- Verificador de usuarios -->
-      <div class="card">
-        <h3>Verificador de usuarios</h3>
-        <form method="post" action="{{ url_for('consultar') }}" class="verify-form">
+      <div class="grid">
+        <!-- Verificador de usuarios -->
+        <div class="card">
+          <h3>Verificador de usuarios</h3>
+          <form method="post" action="{{ url_for('consultar') }}" class="verify-form">
 
-          <label>
-            <img src="/static/conten/perfil.png" alt="">
-            <select name="tipo">
-              <option value="cliente">Cliente</option>
-              <option value="trabajador">Trabajador</option>
-            </select>
-          </label>
-
-          <label class="containerlabel">
-            <div>
-              <img src="/static/conten/doc.svg" alt="">
-              <select name="select_documento" required>
-                <option value="DNI">DNI</option>
-                <option value="Carnet de Extranjeria">Carnet de Extranjería</option>
+            <label>
+              <img src="/static/conten/perfil.png" alt="">
+              <select name="tipo">
+                <option value="cliente">Cliente</option>
+                <option value="trabajador">Trabajador</option>
               </select>
-            </div>
-            <div>
-              <label>
-                <input class="inputdoc" name="documento" type="text" placeholder="Ej. 12345678" required>
-                <img src="/static/conten/lupa.svg" alt="">
-              </label>
-            </div>
-          </label>
+            </label>
 
-          <button type="submit" class="btn btn-primary">Validar ahora</button>
-        </form>
+            <label class="containerlabel">
+              <div>
+                <img src="/static/conten/doc.svg" alt="">
+                <select name="select_documento" required>
+                  <option value="DNI">DNI</option>
+                  <option value="Carnet de Extranjeria">Carnet de Extranjería</option>
+                </select>
+              </div>
+              <div>
+                <label>
+                  <input class="inputdoc" name="documento" type="text" placeholder="Ej. 12345678" required>
+                  <img src="/static/conten/lupa.svg" alt="">
+                </label>
+              </div>
+            </label>
+
+            <button type="submit" class="btn btn-primary">Validar ahora</button>
+          </form>
+        </div>
+        <div class="actions">
+          <form id="uploadForm" method="POST" action="{{ url_for('upload_beneficiarios') }}" enctype="multipart/form-data">
+            <input type="file" name="file" id="fileInput" accept=".xlsx,.xls,.csv" hidden>
+            <button type="button" class="btn btn-excel" id="uploadBtn">
+              <img src="/static/conten/excel.svg" alt="">
+              Subir beneficiarios
+            </button>
+          </form>
+        </div>
       </div>
-
-      <!-- Lado derecho con imagen -->
-      <div class="preview">
-        {% if preview_url %}
-          <iframe class="excel-preview" src="{{ preview_url }}" title="Vista previa de beneficiarios"></iframe>
-        {% else %}
-          <img src="{{ url_for('static', filename='img/hoja.png') }}" alt="Vista de Excel de ejemplo">
-        {% endif %}
-      </div>
-
+      
     </div>
 
-    <div class="actions">
-      <form id="uploadForm" method="POST" action="{{ url_for('upload_beneficiarios') }}" enctype="multipart/form-data">
-        <input type="file" name="file" id="fileInput" accept=".xlsx,.xls,.csv" hidden>
-        <button type="button" class="btn btn-excel" id="uploadBtn">
-          <img src="/static/conten/excel.svg" alt="">
-          Subir beneficiarios
-        </button>
-      </form>
+    
+
+    <div class="base" id="base2">
+      <div>
+        <!-- Lado derecho con imagen -->
+        <div class="preview">
+          {% if preview_url %}
+            <iframe class="excel-preview" src="{{ preview_url }}" title="Vista previa de beneficiarios"></iframe>
+          {% else %}
+            <img src="{{ url_for('static', filename='img/hoja.png') }}" alt="Vista de Excel de ejemplo">
+          {% endif %}
+        </div>
+
+      </div>
     </div>
+  </div>
+</main>
+<footer class="footer">Gpon</footer>
 
     <script>
       (function () {
@@ -132,11 +144,5 @@
       }, 5000);
     });
     </script>
-
-  </section>
-</main>
-
-<footer class="footer">Gpon</footer>
-
 </body>
 </html>
